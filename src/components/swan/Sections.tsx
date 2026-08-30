@@ -30,11 +30,20 @@ import chineseImg from "@/assets/food-chinese.jpg";
 import bakeryImg from "@/assets/food-bakery.jpg";
 import beveragesImg from "@/assets/food-beverages.jpg";
 
-function LoopVideo({ src, className }: { src: string; className?: string }) {
+function LoopVideo({
+  src,
+  poster,
+  className,
+}: {
+  src: string;
+  poster: string;
+  className?: string;
+}) {
   return (
     <video
       className={cn("h-full w-full object-cover", className)}
       src={src}
+      poster={poster}
       autoPlay
       loop
       muted
@@ -44,6 +53,7 @@ function LoopVideo({ src, className }: { src: string; className?: string }) {
     />
   );
 }
+
 
 /* ---------------- About ---------------- */
 
