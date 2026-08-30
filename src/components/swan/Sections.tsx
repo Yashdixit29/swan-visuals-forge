@@ -40,18 +40,24 @@ function LoopVideo({
   className?: string;
 }) {
   return (
-    <video
-      className={cn("h-full w-full object-cover", className)}
-      src={src}
-      poster={poster}
-      autoPlay
-      loop
-      muted
-      playsInline
-      preload="metadata"
-      aria-hidden
-    />
+    <div
+      className="h-full w-full bg-cover bg-center"
+      style={{ backgroundImage: `url(${poster})` }}
+    >
+      <video
+        className={cn("h-full w-full object-cover", className)}
+        src={src}
+        poster={poster}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        aria-hidden
+      />
+    </div>
   );
+
 }
 
 
