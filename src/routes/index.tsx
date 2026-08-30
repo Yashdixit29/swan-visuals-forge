@@ -1,24 +1,56 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Navbar } from "@/components/swan/Navbar";
+import { Hero } from "@/components/swan/Hero";
+import {
+  About,
+  Display,
+  Experience,
+  Food,
+  Hygiene,
+  Quality,
+  Team,
+  WhySwan,
+} from "@/components/swan/Sections";
+import { Founder } from "@/components/swan/Founder";
+import { Contact } from "@/components/swan/Contact";
+import { Footer } from "@/components/swan/Footer";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const title = "SWAN — Premium Food & Beverage Brand";
+const description =
+  "SWAN is an independent food & beverage brand serving burgers, pizza, fast food, Indo-Chinese, fresh bakery and cold beverages with quality, freshness and hygiene first.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main>
+        <Hero />
+        <About />
+        <Food />
+        <Quality />
+        <Hygiene />
+        <Team />
+        <Display />
+        <Experience />
+        <WhySwan />
+        <Founder />
+        <Contact />
+      </main>
+      <Footer />
     </div>
   );
 }
