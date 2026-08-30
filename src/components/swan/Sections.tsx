@@ -64,7 +64,7 @@ export function About() {
         <Reveal>
           <div className="glass relative overflow-hidden rounded-[2rem] p-2">
             <div className="aspect-4/3 overflow-hidden rounded-[1.6rem]">
-              <LoopVideo src={loop1.url} />
+              <LoopVideo src={loop1.url} poster={interiorImg} />
             </div>
           </div>
         </Reveal>
@@ -287,7 +287,7 @@ export function Hygiene() {
         <Reveal delay={80}>
           <div className="glass overflow-hidden rounded-[2rem] p-2">
             <div className="aspect-4/3 overflow-hidden rounded-[1.6rem]">
-              <LoopVideo src={loop2.url} />
+              <LoopVideo src={loop2.url} poster={hygieneImg} />
             </div>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-4">
