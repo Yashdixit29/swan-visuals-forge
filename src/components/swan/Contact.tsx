@@ -161,8 +161,8 @@ export function Contact() {
                   <CheckCircle2 className="h-16 w-16 text-primary" />
                   <h3 className="mt-5 text-3xl font-semibold">Enquiry received</h3>
                   <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-                    Your email app has opened with the enquiry ready to send to {contact.email}. Our
-                    team will reply shortly.
+                    Thank you! Your enquiry has been sent to our team. We will reply to you shortly
+                    on your email or phone.
                   </p>
 
                   <button
@@ -233,11 +233,19 @@ export function Contact() {
                       <p className="mt-1 text-xs text-destructive">{errors.message}</p>
                     )}
                   </div>
+                  {sendError && (
+                    <p className="flex items-center gap-2 text-sm text-destructive sm:col-span-2">
+                      <AlertCircle className="h-4 w-4 shrink-0" />
+                      {sendError}
+                    </p>
+                  )}
                   <button
                     type="submit"
-                    className="sm:col-span-2 rounded-full bg-brand-gradient px-7 py-3.5 text-sm font-semibold text-white shadow-[var(--shadow-soft)] transition-transform hover:scale-[1.02]"
+                    disabled={sending}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-gradient px-7 py-3.5 text-sm font-semibold text-white shadow-[var(--shadow-soft)] transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-70 sm:col-span-2"
                   >
-                    Submit Enquiry
+                    {sending && <Loader2 className="h-4 w-4 animate-spin" />}
+                    {sending ? "Sending…" : "Submit Enquiry"}
                   </button>
                 </form>
               )}
