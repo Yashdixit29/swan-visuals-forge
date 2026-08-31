@@ -41,8 +41,10 @@ const field =
 export function Contact() {
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
@@ -57,12 +59,33 @@ export function Contact() {
       return;
     }
     const v = parsed.data;
-    const subject = `${v.type} — ${v.name}`;
-    const body = `Name: ${v.name}\nEmail: ${v.email}\nPhone: ${v.phone}\nEnquiry Type: ${v.type}\n\n${v.message}`;
-    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setErrors({});
-    setSent(true);
-    form.reset();
+    setSendError(null);
+    setSending(true);
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: v.name,
+          name: v.name,
+          email: v.email,
+          reply_to: v.email,
+          phone: v.phone,
+          enquiry_type: v.type,
+          type: v.type,
+          message: v.message,
+          subject: `${v.type} — ${v.name}`,
+        },
+        EMAILJS_PUBLIC_KEY,
+      );
+      setSent(true);
+      form.reset();
+    } catch {
+      setSendError("Message bhejne mein dikkat aayi. Kripya dobara koshish karein ya seedha email/call karein.");
+    } finally {
+      setSending(false);
+    }
   }
 
 
