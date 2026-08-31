@@ -1,9 +1,12 @@
 import { useState, type FormEvent } from "react";
+import emailjs from "@emailjs/browser";
 import {
+  AlertCircle,
   CheckCircle2,
   Facebook,
   Instagram,
   Linkedin,
+  Loader2,
   Mail,
   MapPin,
   MessageCircle,
@@ -12,6 +15,10 @@ import {
 import { z } from "zod";
 import { contact, enquiryTypes } from "@/content/swan";
 import { Reveal, SectionHeading } from "./Reveal";
+
+const EMAILJS_PUBLIC_KEY = "kXn7IQdJMsLCO7ugW";
+const EMAILJS_SERVICE_ID = "service_pvmg8m9";
+const EMAILJS_TEMPLATE_ID = "template_zzpnekl";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(80),
@@ -34,8 +41,10 @@ const field =
 export function Contact() {
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
@@ -50,12 +59,33 @@ export function Contact() {
       return;
     }
     const v = parsed.data;
-    const subject = `${v.type} — ${v.name}`;
-    const body = `Name: ${v.name}\nEmail: ${v.email}\nPhone: ${v.phone}\nEnquiry Type: ${v.type}\n\n${v.message}`;
-    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setErrors({});
-    setSent(true);
-    form.reset();
+    setSendError(null);
+    setSending(true);
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: v.name,
+          name: v.name,
+          email: v.email,
+          reply_to: v.email,
+          phone: v.phone,
+          enquiry_type: v.type,
+          type: v.type,
+          message: v.message,
+          subject: `${v.type} — ${v.name}`,
+        },
+        EMAILJS_PUBLIC_KEY,
+      );
+      setSent(true);
+      form.reset();
+    } catch {
+      setSendError("Message bhejne mein dikkat aayi. Kripya dobara koshish karein ya seedha email/call karein.");
+    } finally {
+      setSending(false);
+    }
   }
 
 
@@ -131,8 +161,8 @@ export function Contact() {
                   <CheckCircle2 className="h-16 w-16 text-primary" />
                   <h3 className="mt-5 text-3xl font-semibold">Enquiry received</h3>
                   <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-                    Your email app has opened with the enquiry ready to send to {contact.email}. Our
-                    team will reply shortly.
+                    Thank you! Your enquiry has been sent to our team. We will reply to you shortly
+                    on your email or phone.
                   </p>
 
                   <button
@@ -203,11 +233,19 @@ export function Contact() {
                       <p className="mt-1 text-xs text-destructive">{errors.message}</p>
                     )}
                   </div>
+                  {sendError && (
+                    <p className="flex items-center gap-2 text-sm text-destructive sm:col-span-2">
+                      <AlertCircle className="h-4 w-4 shrink-0" />
+                      {sendError}
+                    </p>
+                  )}
                   <button
                     type="submit"
-                    className="sm:col-span-2 rounded-full bg-brand-gradient px-7 py-3.5 text-sm font-semibold text-white shadow-[var(--shadow-soft)] transition-transform hover:scale-[1.02]"
+                    disabled={sending}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-gradient px-7 py-3.5 text-sm font-semibold text-white shadow-[var(--shadow-soft)] transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-70 sm:col-span-2"
                   >
-                    Submit Enquiry
+                    {sending && <Loader2 className="h-4 w-4 animate-spin" />}
+                    {sending ? "Sending…" : "Submit Enquiry"}
                   </button>
                 </form>
               )}
