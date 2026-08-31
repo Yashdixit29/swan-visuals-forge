@@ -67,6 +67,9 @@ export function Contact() {
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
+          to_email: contact.email,
+          recipient_email: contact.email,
+          to_name: "SWAN Team",
           from_name: v.name,
           name: v.name,
           email: v.email,
