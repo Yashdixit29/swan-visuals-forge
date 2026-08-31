@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import swanMark from "@/assets/swan-mark.png";
+import swanLogo from "@/assets/swan-logo.png.asset.json";
 import { navLinks } from "@/content/swan";
 import { cn } from "@/lib/utils";
 
@@ -25,14 +25,25 @@ export function Navbar() {
       <nav
         aria-label="Main"
         className={cn(
-          "mx-auto flex max-w-7xl items-center justify-between rounded-2xl px-4 py-3 transition-all duration-500 sm:px-6",
+          "mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-4 py-2.5 transition-all duration-500 sm:px-6",
           scrolled ? "glass mx-3 sm:mx-6" : "mx-3 bg-transparent sm:mx-6",
         )}
       >
-        <a href="#home" className="flex items-center gap-2.5">
-          <img src={swanMark} alt="" width={36} height={36} className="h-9 w-9" />
-          <span className="font-display text-2xl font-semibold tracking-[0.32em] text-foreground">
-            SWAN
+        <a href="#home" className="flex items-center gap-3">
+          <img
+            src={swanLogo.url}
+            alt="SWAN logo"
+            width={48}
+            height={48}
+            className="h-11 w-11 rounded-full"
+          />
+          <span className="leading-tight">
+            <span className="font-display block text-xl font-semibold tracking-[0.3em] text-foreground">
+              SWAN
+            </span>
+            <span className="hidden text-[0.55rem] font-semibold tracking-[0.24em] text-muted-foreground uppercase sm:block">
+              Taste • Quality • Experience
+            </span>
           </span>
         </a>
 
@@ -75,12 +86,11 @@ export function Navbar() {
         )}
       >
         <ul className="glass rounded-2xl p-3">
-          {navLinks.map((l, i) => (
+          {navLinks.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
                 onClick={() => setOpen(false)}
-                style={{ transitionDelay: `${i * 40}ms` }}
                 className="block rounded-xl px-4 py-3 text-base font-medium text-foreground transition-colors hover:bg-secondary"
               >
                 {l.label}
