@@ -1,9 +1,12 @@
 import { useState, type FormEvent } from "react";
+import emailjs from "@emailjs/browser";
 import {
+  AlertCircle,
   CheckCircle2,
   Facebook,
   Instagram,
   Linkedin,
+  Loader2,
   Mail,
   MapPin,
   MessageCircle,
@@ -12,6 +15,10 @@ import {
 import { z } from "zod";
 import { contact, enquiryTypes } from "@/content/swan";
 import { Reveal, SectionHeading } from "./Reveal";
+
+const EMAILJS_PUBLIC_KEY = "kXn7IQdJMsLCO7ugW";
+const EMAILJS_SERVICE_ID = "service_pvmg8m9";
+const EMAILJS_TEMPLATE_ID = "template_zzpnekl";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(80),
