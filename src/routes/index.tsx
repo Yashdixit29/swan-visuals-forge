@@ -34,11 +34,6 @@ function Index() {
         <About />
         <Food />
         <Quality />
-        <Hygiene />
-        <Team />
-        <Display />
-        <Experience />
-        <WhySwan />
         <Founder />
         <Contact />
       </main>
