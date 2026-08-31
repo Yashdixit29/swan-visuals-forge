@@ -141,11 +141,12 @@
 }
 
 @utility glass {
-  background-color: color-mix(in oklab, white 68%, transparent);
-  backdrop-filter: blur(18px) saturate(150%);
-  border: 1px solid color-mix(in oklab, white 70%, var(--border));
+  background-color: color-mix(in oklab, var(--card) 82%, transparent);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid color-mix(in oklab, var(--gold) 22%, var(--border));
   box-shadow: var(--shadow-soft);
 }
+
 
 @utility reveal {
   opacity: 0;
