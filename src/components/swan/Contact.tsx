@@ -49,10 +49,15 @@ export function Contact() {
       setErrors(next);
       return;
     }
+    const v = parsed.data;
+    const subject = `${v.type} — ${v.name}`;
+    const body = `Name: ${v.name}\nEmail: ${v.email}\nPhone: ${v.phone}\nEnquiry Type: ${v.type}\n\n${v.message}`;
+    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setErrors({});
     setSent(true);
     form.reset();
   }
+
 
   const details = [
     { icon: Phone, label: "Phone", value: contact.phone, href: `tel:${contact.phone.replace(/\s/g, "")}` },
