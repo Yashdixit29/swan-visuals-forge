@@ -131,8 +131,10 @@ export function Contact() {
                   <CheckCircle2 className="h-16 w-16 text-primary" />
                   <h3 className="mt-5 text-3xl font-semibold">Enquiry received</h3>
                   <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-                    Thank you for reaching out to SWAN. Our team will get back to you shortly.
+                    Your email app has opened with the enquiry ready to send to {contact.email}. Our
+                    team will reply shortly.
                   </p>
+
                   <button
                     type="button"
                     onClick={() => setSent(false)}
